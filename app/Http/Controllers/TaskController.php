@@ -9,29 +9,39 @@ use App\Http\Controllers\Controller;
 use Illuminate\Mail\Mailer;
 use App\Task;
 use App\Repositories\TaskRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Psy\VersionUpdater\Checker;
+
 class TaskController extends Controller
 {
     protected $tasks;
+    protected $tasks1;
 
     public function __construct(TaskRepository $tasks)
     {
         $this->middleware('auth');
 
-        $this->tasks = $tasks;
+        $this->tasks = Task::get();
+
     }
 
     public function index(Request $request)
     {
-        return view('tasks.index', [
+        /*return view('tasks.index', [
             'tasks' => $this->tasks->forUser($request->user()),
-        ]);
+        ]);*/
+        //$tasks=Task::where('receiver',Auth::user()->email)->get();
+            $tasks=Task::get();
+        return view('tasks.index')->with('tasks', $tasks);
+        //            $tasks=Task::where('receiver',Auth::user()->email)->get();
+
     }
 
     public function indexMyTasks(Request $request)
     {
-        return view('tasks.myTasks', [
-            'tasks' => $this->tasks->forUser($request->user()),
-        ]);
+        $tasks=Task::where('receiver',Auth::user()->email)->get();
+        return view('tasks.index')->with('tasks', $tasks);
     }
     public function mail(Request $request, Mailer $mailer  )
     {

@@ -15,7 +15,6 @@
                     <!-- New Task Form -->
                     <form action="{{ url('task')}}" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
-
                         <!-- Task Name -->
                         <div class="form-group">
                             <div class="col-sm-6">
@@ -36,15 +35,14 @@
                             </div>
                         </div>
                     </form>
-                    <button type="submit" class="btn btn-success" onclick="window.location='{{ url("tasks") }}'">
-                        All Tasks
-                    </button>
-                    <button type="submit" class="btn btn-success" onclick="window.location='{{ url("myTasks") }}'">
-                        My Tasks
-                    </button>
                 </div>
             </div>
-
+            <button type="submit" class="btn btn-success" onclick="window.location='{{ url("tasks") }}'">
+                All Tasks
+            </button>
+            <button type="submit" class="btn btn-success" onclick="window.location='{{ url("myTasks") }}'">
+                My Tasks
+            </button>
             <!-- Current Tasks -->
             @if (count($tasks) > 0)
                 <div class="panel panel-default">
@@ -56,13 +54,11 @@
                         <table class="table table-striped task-table">
                             <thead>
                                 <th>Task</th>
-                                <th>&nbsp;</th>
                             </thead>
                             <tbody>
-                                @foreach ($tasks as $task)
+                            @foreach ($tasks as $task)
                                     <tr>
                                         <td class="table-text"><div>{{ $task->name }}</div></td>
-
                                         <!-- Task Delete Button -->
                                         <td>
                                             <form action="{{url('task/' . $task->id)}}" method="POST">
